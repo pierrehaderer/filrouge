@@ -1,0 +1,673 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+   <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="../css/bootstrap-icons/font/bootstrap-icons.min.css"/>
+  <link type="text/css" rel="stylesheet" href="../css/filrouge.css"/>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+  <div class="toast-container"></div>
+  <div class="overlay"><div class="bi bi-hourglass-split spinner"></div></div>
+
+  <!-- ################################# MODALS ################################### -->
+
+  <div id="modify-animateur-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Modifier mon nom</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <span class="input-group-text">Nom</span>
+            <input id="nom-animateur" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-modify-animateur">Modifier</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="create-defi-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Ajouter un défi</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <span class="input-group-text">Description</span>
+            <textarea id="create-defi-description" rows="3" class="form-control"></textarea>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">Type</span>
+            <select class="form-select" id="create-defi-type">
+              <!-- Filled with javascript -->
+            </select>
+          </div>
+          <div id="create-defi-explanation"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-create-defi">Ajouter</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modify-defi-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Modifier le défi</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <span class="input-group-text">Description</span>
+            <textarea id="modify-defi-description" rows="3" class="form-control"></textarea>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">Type</span>
+            <select class="form-select" id="modify-defi-type">
+              <!-- Filled with javascript -->
+            </select>
+          </div>
+          <div id="modify-defi-explanation"></div>
+          <input type="hidden" id="modify-defi-id"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-modify-defi">Modifier</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="delete-defi-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Supprimer le défi</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div>Es-tu sûr de vouloir supprimer le défi ci-dessous ?</div>
+          <div>Note : Cela ne supprimera pas les points des jeunes qui ont déjà validés ce défi.</div>
+          <div id="delete-defi-description"></div>
+          <input type="hidden" id="delete-defi-id"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-delete-defi">Supprimer</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="validate-defi-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Valider un défi</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="validate-defi-description"><!-- Filled with javascript --></div>
+          <table class="filrouge-table">
+            <thead id="validate-defi-header"><tr><th>Jeune</th><th>Pos</th><th>Score</th><th>Date</th><th></th></tr></thead>
+            <tbody id="validate-defi-jeunes">
+              <!-- Filled with javascript -->
+            </tbody>
+          </table>
+          <input type="hidden" id="validate-defi-type"/>
+          <input type="hidden" id="validate-defi-id"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-validate-defi-multi">Validation collective</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="help-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Page d'aide</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Pour avoir une visite guidée, tu peux regarder cette <span class="open-video-guide" onclick="openVideoGuide();">vidéo</span>.</p>
+          <p>Tu es sur ta page d'animateur. Ici tu pourras :</p>
+          <ul>
+            <li>Modifier ton nom.</li>
+            <li>Ajouter - Modifier - Supprimer tes défis. Il y a plusieurs types de défi, ils sont expliqués dans la fenêtre de création.
+                Entre "Décroissant" et "Constant", il serait sûrement bon de vous accorder sur l'un des deux types avec les autres animateurs.</li>
+            <li>Pour chaque défi tu pourras aussi :
+              <ul>
+                <li>Voir qui l'a déjà validé.</li>
+                <li>Le valider lorsqu'un jeune le réussit.</li>
+                <li>Grâce aux cases à cocher et avec le bouton en bas de la fenêtre, on peut valider un défi pour plusieurs jeunes simultanément.</li>
+                <li>En cliquant sur un jeune tu pourras aussi revoir sa photo.<br>Si elle n'a pas encore été ajoutée, tu pourras le faire en cliquant dessus.</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ################################## MAIN #################################### -->
+
+  <div class="col-lg-10 col-md-10 col-sm-12 col-12 mx-auto page-container">
+
+    <div id="navigation">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#help-modal"><i class="bi bi-question"></i></button>
+        <a id="a-previous" href=""><button type="button" class="btn btn-secondary"><i class="bi bi-arrow-up"></i></button></a>
+    </div>
+
+    <header class="border-bottom admin-header">
+      <h1>
+         Animateur <span id="nom-animateur-title"><!-- Filled with javascript --></span>
+      </h1>
+    </header>
+  
+    <main id="main">
+      <div class="row accueil-button-container">
+        <div class="col-md-6 col-12">
+          <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#create-defi-modal">Ajouter un défi</button>
+        </div>
+        <div class="col-md-6 col-12">
+          <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#modify-animateur-modal">Modifier mon nom</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-12">
+          <table class="filrouge-table">
+            <thead><tr><th colspan="3">Défis</th></tr></thead>
+            <tbody id="defi-list">
+              <!-- Filled with javascript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="photo-jeune"><img src="" alt="_"/></div>
+      <form id="animateur-page-form-modify-jeune">
+        <input id="modify-jeune-sejour" name="sejour" type="hidden">
+        <input id="modify-jeune-cle" name="cle" type="hidden">
+        <input id="modify-jeune-prenom" name="prenom" type="hidden">
+        <input id="modify-jeune-nom" name="nom" type="hidden">
+        <input id="modify-jeune-age" name="age" type="hidden">
+        <input id="modify-jeune-equipe" name="equipe" type="hidden">
+        <input id="modify-jeune-photo" name="photo" type="file">
+        <input type="submit" class="btn btn-primary" id="modify-jeune-btn-submit"></button>
+      </form>
+
+      <input type="hidden" id="cle-sejour"/>
+      <input type="hidden" id="cle-animateur"/>
+    </main>
+
+    <footer class="pt-5 my-5 text-body-secondary border-top">
+      <div>Created by <span data-bs-toggle="tooltip" title="Des idées - Des suggestions pierre.haderer@gmail.com">Pierre Haderer.</span></div>
+    </footer>
+  </div>
+
+  <!-- ################################# SCRIPT ################################### -->
+
+  <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="../js/jquery-3.7.1.min.js"></script>
+  <script type="text/javascript" src="../js/filrouge.js"></script>
+
+  <script type="text/javascript">
+
+    var defiTypes = { CONSTANT: "Constant", DECREASING: "Décroissant",
+                      SUPER_CONSTANT : "Platine constant", SUPER_DECREASING : "Platine décroissant",
+                      REUSABLE : "Réutilisable", UNIQUE : "Unique" };
+    var defiTypeExplanations = { CONSTANT: "La valeur de base utilisée pour calculer le score ne change pas si d'autres jeunes ont déjà validé le défi.",
+                                 DECREASING: "La valeur de base utilisée pour calculer le score diminue au fur et à mesure que les jeunes valident le défi.",
+                                 SUPER_CONSTANT : "Comme un défi de type 'Constant' mais rapporte un score 5 fois plus grand.",
+                                 SUPER_DECREASING : "Comme un défi de type 'Décroissant' mais rapporte un score 5 fois plus grand.",
+                                 REUSABLE : "Le défi peut être validé plusieurs fois par les jeunes.",
+                                 UNIQUE : "Une fois le défi validé, il ne pourra plus l'être par les autres jeunes"};
+    
+    function loadPage() {
+        var cleSejour = getHttpParam("sejour");
+        var cleAnimateur = getHttpParam("animateur");
+        $("#cle-sejour").val(cleSejour);
+        $("#cle-animateur").val(cleAnimateur);
+        $("#a-previous").attr('href', "accueil.html?sejour=" + cleSejour);
+        $("#modify-jeune-sejour").val(cleSejour);
+
+        if (cleSejour.trim().length > 0 && cleAnimateur.trim().length > 0) {
+            $.ajax({
+                url: "get_animateur.php",
+                type: "POST",
+                data: {
+                    sejour: cleSejour,
+                    animateur: cleAnimateur
+                },
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    $("#nom-animateur-title").html(response.content.animateur.NOM);
+                    $("#nom-animateur").val(response.content.animateur.NOM);
+                    var defiList = "";
+                    $.each(response.content.defis, function(key, defi) {
+                      var attributes = "data-defi-id='" + defi.ID + "' data-defi-type='" + escapeQuote(defi.TYPE) + "' data-defi-description='" + escapeQuote(defi.DESCRIPTION) + "'";
+                      defiList += "<tr>";
+                      defiList += "  <td>" + defi.DESCRIPTION + "</td>";
+                      defiList += "  <td>" + defiTypes[defi.TYPE] + "</td>";
+                      defiList += "  <td>";
+                      defiList += "    <button type='button' " + attributes + " class='btn btn-primary btn-open-modal-validate-defi'><i class='bi bi-bookmark-check-fill'></i></button>";
+                      defiList += "    <button type='button' " + attributes + " class='btn btn-primary btn-open-modal-modify-defi'><i class='bi bi-pencil-fill'></i></button>";
+                      defiList += "    <button type='button' " + attributes + " class='btn btn-primary btn-open-modal-delete-defi'><i class='bi bi-trash-fill'></i></button>";
+                      defiList += "  </td>";
+                      defiList += "</tr>";
+                    });
+                    defiList = (defiList.length > 0) ? defiList : "<tr><td colspan='3'>Pas de défi pour le moment</td></tr>";
+                    $("#defi-list").html(defiList);
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la collecte des informations : " + xhr.responseText);
+                }
+            });
+        } else {
+          toastError("La cle du séjour et la clé de l'animateur ne peuvent pas être vides.");
+        }
+    }
+
+  <!-- ############################### ANIMATEURS ################################# -->
+
+    $("#btn-modify-animateur").click(function (event) {
+        var sejour = $("#cle-sejour").val();
+        var animateur = $("#cle-animateur").val();
+        var nom = $("#nom-animateur").val();
+
+        if (nom.trim().length > 0) {
+            $.ajax({
+                url: "modify_animateur.php",
+                type: "POST",
+                data: {
+                    sejour: sejour,
+                    animateur: animateur,
+                    nom: nom
+                },
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    $("#cle-animateur").val(response.content.animateur.CLE);
+                    $("#nom-animateur-title").html(response.content.animateur.NOM);
+                    $("#nom-animateur").val(response.content.animateur.NOM);
+                    $('#modify-animateur-modal').modal('toggle');
+                    history.replaceState("{}", "", window.location.href.replace("animateur=" + animateur, "animateur=" + response.content.animateur.CLE));
+                    toastSuccess(response.message);
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la modification : " + xhr.responseText);
+                }
+            });
+        } else {
+          toastWarning("Le nom de l'animateur ne peut pas être vide.");
+        }
+    });
+
+  <!-- ############################## CREATE DEFI ################################ -->
+
+    $("#create-defi-type").on('change', function (event) {
+        $("#create-defi-explanation").html(defiTypeExplanations[$(this).val()]);
+    });
+
+    $("#btn-create-defi").click(function (event) {
+        var sejour = $("#cle-sejour").val();
+        var animateur = $("#cle-animateur").val();
+        var description = $("#create-defi-description").val();
+        var type = $("#create-defi-type").val();
+
+        if (description.trim().length > 0) {
+            $.ajax({
+                url: "create_defi.php",
+                type: "POST",
+                data: {
+                    sejour: sejour,
+                    animateur: animateur,
+                    description: description,
+                    type: type
+                },
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    $('#create-defi-modal').modal('toggle');
+                    toastSuccess(response.message);
+                    loadPage();
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la creation : " + xhr.responseText);
+                }
+            });
+        } else {
+          toastWarning("La description ne peut pas être vide.");
+        }
+    });
+
+  <!-- ############################## MODIFY DEFI ################################ -->
+
+    $("body").on('click', '.btn-open-modal-modify-defi', function (event) {
+        $("#modify-defi-id").val($(this).attr('data-defi-id'));
+        $("#modify-defi-type").val($(this).attr('data-defi-type'));
+        $("#modify-defi-explanation").html(defiTypeExplanations[$(this).attr('data-defi-type')]);
+        $("#modify-defi-description").val($(this).attr('data-defi-description'));
+        $('#modify-defi-modal').modal('toggle');
+    });
+
+    $("#modify-defi-type").on('change', function (event) {
+        $("#modify-defi-explanation").html(defiTypeExplanations[$(this).val()]);
+    });
+
+    $("#btn-modify-defi").click(function (event) {
+        var sejour = $("#cle-sejour").val();
+        var animateur = $("#cle-animateur").val();
+        var defi = $("#modify-defi-id").val();
+        var description = $("#modify-defi-description").val();
+        var type = $("#modify-defi-type").val();
+
+        if (description.trim().length > 0) {
+            $.ajax({
+                url: "modify_defi.php",
+                type: "POST",
+                data: {
+                    sejour: sejour,
+                    animateur: animateur,
+                    defi: defi,
+                    description: description,
+                    type: type
+                },
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    $('#modify-defi-modal').modal('toggle');
+                    toastSuccess(response.message);
+                    loadPage();
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la modification : " + xhr.responseText);
+                }
+            });
+        } else {
+          toastWarning("La description ne peut pas être vide.");
+        }
+    });
+
+    $("#defi-type").on('change', function (event) {
+        $("#defi-explanation").html(defiTypeExplanations[$(this).val()]);
+    });
+
+  <!-- ############################## DELETE DEFI ################################ -->
+
+    $("body").on('click', '.btn-open-modal-delete-defi', function (event) {
+        $("#delete-defi-id").val($(this).attr('data-defi-id'));
+        $("#delete-defi-description").html($(this).attr('data-defi-description'));
+        $('#delete-defi-modal').modal('toggle');
+    });
+
+    $("#btn-delete-defi").click(function (event) {
+        var sejour = $("#cle-sejour").val();
+        var animateur = $("#cle-animateur").val();
+        var defi = $("#delete-defi-id").val();
+
+        $.ajax({
+            url: "delete_defi.php",
+            type: "POST",
+            data: {
+                sejour: sejour,
+                animateur: animateur,
+                defi: defi
+            },
+            success: function(ajaxResponse) {
+              var response = JSON.parse(ajaxResponse);
+              if (response.code == 0) {
+                $('#delete-defi-modal').modal('toggle');
+                toastSuccess(response.message);
+                loadPage();
+              } else {
+                toastError(response.message);
+              }
+            },
+            error(xhr) {
+              toastError("Une erreur est survenue lors de la suppression : " + xhr.responseText);
+            }
+        });
+    });
+
+  <!-- ############################# VALIDATE DEFI ############################### -->
+
+    $("body").on('click', '.btn-open-modal-validate-defi', function (event) {
+        $("#validate-defi-id").val($(this).attr('data-defi-id'));
+        $("#validate-defi-type").val($(this).attr('data-defi-type'));
+        $("#validate-defi-description").html($(this).attr('data-defi-description'));
+        loadDefi();
+        $('#validate-defi-modal').modal('toggle');
+    });
+
+    function loadDefi() {
+        var sejour = $("#cle-sejour").val();
+        var defi = $("#validate-defi-id").val();
+        var defiType = $("#validate-defi-type").val();
+        
+        $.ajax({
+            url: "get_defi.php",
+            type: "POST",
+            data: {
+                sejour: sejour,
+                defi: defi
+            },
+            success: function(ajaxResponse) {
+              var response = JSON.parse(ajaxResponse);
+              if (response.code == 0) {
+                var defiDejaValide = false;
+                $.each(response.content.jeunes, function(key, jeune) {
+                    defiDejaValide = defiDejaValide || (jeune.SCORE != "-");
+                });
+                var jeuneList = "";
+                $.each(response.content.jeunes, function(key, jeune) {
+                  var attributes = "data-validate-defi-jeune='" + jeune.CLE + "' data-validate-defi-jeune-photo='" + jeune.PHOTO + "' data-validate-defi-jeune-age='" + jeune.AGE + "'" +
+                                      " data-validate-defi-jeune-prenom='" + jeune.PRENOM + "' data-validate-defi-jeune-nom='" + jeune.NOM + "' data-validate-defi-jeune-equipe='" + jeune.EQUIPE + "'";
+                  var activeButton = "<button type='button' " + attributes + " class='btn btn-primary btn-validate-defi'><i class='bi bi-trophy-fill'></i></button>";
+                  activeButton += "<input type='checkbox' " + attributes + " class='validate-defi-checkbox'/>";
+                  var inactiveButton = "<button type='button' class='btn btn-primary btn-validate-defi' disabled><i class='bi bi-trophy'></i></button>";
+                  inactiveButton += "<input type='checkbox' class='validate-defi-checkbox' disabled/>";
+                  var button = activeButton;
+                  if (defiDejaValide && defiType == "UNIQUE") {
+                    button = inactiveButton;
+                  }
+                  if (jeune.SCORE != "-" && defiType != "REUSABLE") {
+                    button = inactiveButton;
+                  }
+                  var displayPosition = jeune.POSITION;
+                  if (displayPosition != "-") {
+                    displayPosition = (displayPosition > 1) ? displayPosition + "<sup>e</sup>" : "1<sup>er</sup>";
+                  }
+                  jeuneList += "<tr>";
+                  jeuneList += "  <td " + attributes + " class='validate-defi-jeune-prenom'>" + jeune.PRENOM + " " + jeune.NOM + "</td>";
+                  jeuneList += "  <td>" + displayPosition + "</td>";
+                  jeuneList += "  <td>" + jeune.SCORE + "</td>";
+                  jeuneList += "  <td>" + jeune.DATE_VALIDATION + "</td>";
+                  jeuneList += "  <td>" + button + "</td>";
+                  jeuneList += "</tr>";
+                });
+                jeuneList = (jeuneList.length > 0) ? jeuneList : "<tr><td colspan='5'>Pas de jeune pour le moment</td></tr>";
+                $("#validate-defi-jeunes").html(jeuneList);
+              } else {
+                toastError(response.message);
+              }
+            },
+            error(xhr) {
+              toastError("Une erreur est survenue lors de la collecte des informations : " + xhr.responseText);
+            }
+        });
+    }
+
+    $("body").on('click', '.validate-defi-jeune-prenom', function(e) {
+        $(".validate-defi-jeune-prenom").css("background-color", "");
+        $(this).css("background-color", "#de8c8c");
+        $("#photo-jeune").css("top", e.pageY - 100);
+        $("#photo-jeune").css("left", e.pageX + 50);
+        $("#modify-jeune-cle").val($(this).attr("data-validate-defi-jeune"));
+        $("#modify-jeune-prenom").val($(this).attr("data-validate-defi-jeune-prenom"));
+        $("#modify-jeune-nom").val($(this).attr("data-validate-defi-jeune-nom"));
+        $("#modify-jeune-age").val($(this).attr("data-validate-defi-jeune-age"));
+        $("#modify-jeune-equipe").val($(this).attr("data-validate-defi-jeune-equipe"));
+        var src = ($(this).attr("data-validate-defi-jeune-photo") != "") ? $(this).attr("data-validate-defi-jeune-photo") : "site/addme.jpg";
+        $("#photo-jeune img").attr("src", "../photos/" + src);
+        $("#photo-jeune").show("fast");
+    });
+
+    document.addEventListener('scroll', function (event) {
+        $("#photo-jeune").hide(0);
+    }, true);
+
+    $('#validate-defi-modal').on("hide.bs.modal", function() {
+        $("#photo-jeune").hide(0);
+    });
+
+    $("body").on('click', '.btn-validate-defi', function (event) {
+        validateDefi($(this).attr('data-validate-defi-jeune'));
+    });
+
+    $("#btn-validate-defi-multi").click(function (event) {
+        var jeunes = "";
+        $(".validate-defi-checkbox").each(function() {
+            if ($(this).is(':checked')) {
+                jeunes += "#" + $(this).attr("data-validate-defi-jeune");
+            }
+        });
+        if (jeunes != "") {
+            validateDefi(jeunes.substring(1));
+        } else {
+            toastWarning("Pour valider un défi de manière collective, coches les jeunes qui l'ont validé.");
+        }
+    });
+
+
+    function validateDefi(jeunes) {
+        var sejour = $("#cle-sejour").val();
+        var animateur = $("#cle-animateur").val();
+        var defi = $("#validate-defi-id").val();
+
+        $.ajax({
+            url: "validate_defi.php",
+            type: "POST",
+            data: {
+                sejour: sejour,
+                animateur: animateur,
+                defi: defi,
+                jeunes: jeunes
+            },
+            success: function(ajaxResponse) {
+              var response = JSON.parse(ajaxResponse);
+              if (response.code == 0) {
+                toastSuccess(response.message);
+                loadDefi();
+              } else {
+                toastError(response.message);
+              }
+            },
+            error(xhr) {
+              toastError("Une erreur est survenue lors de la validation : " + xhr.responseText);
+            }
+        });
+    }
+
+    $("#photo-jeune").click(function() {
+        $("#modify-jeune-photo").val("");
+        $("#modify-jeune-photo").click();
+    });
+
+    $("#modify-jeune-photo").change(function() {
+        if ($(this).val() != "") {
+            $("#modify-jeune-btn-submit").click();
+        }
+    });
+
+    $("#animateur-page-form-modify-jeune").submit(function(event){   
+        event.preventDefault();
+
+        var formData = new FormData($(this)[0]);
+        loadOverlay();
+        $.ajax({
+            url: "modify_jeune.php",
+            type: "POST",
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function(ajaxResponse) {
+              var response = JSON.parse(ajaxResponse);
+              if (response.code == 0) {
+                $('#modify-jeune-modal').modal('toggle');
+                toastSuccess(response.message);
+                $("#photo-jeune").hide(0);
+                loadDefi();
+              } else {
+                toastError(response.message);
+              }
+            },
+            error(xhr) {
+              toastError("Une erreur est survenue lors de la modification : " + xhr.responseText);
+            },
+            complete: function() {
+                unloadOverlay();
+            }
+        });
+
+    });
+
+  <!-- ################################# LOAD ################################### -->
+
+    function loadDefiTypes() {
+        var options = "";
+        $.each(defiTypes, function(key, label) {
+            options += "<option value='" + key + "'>" + label + "</option>";
+        });
+        $("#create-defi-type").html(options);
+        $("#create-defi-explanation").html(defiTypeExplanations[$("#create-defi-type").find(":selected").val()]);
+        $("#modify-defi-type").html(options);
+        $("#modify-defi-explanation").html(defiTypeExplanations[$("#modify-defi-type").find(":selected").val()]);
+    }
+
+    $(document).ready(function () {
+        loadDefiTypes();
+        loadPage();
+        activateTooltips();
+    });
+  </script>
+</body>
+</html>

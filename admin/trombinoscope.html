@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+   <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css" media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="../css/bootstrap-icons/font/bootstrap-icons.min.css"/>
+  <link type="text/css" rel="stylesheet" href="../css/filrouge.css"/>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+  <div class="toast-container"></div>
+  <div class="overlay"><div class="bi bi-hourglass-split spinner"></div></div>
+
+  <!-- ################################# MODALS ################################### -->
+
+  <div id="help-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Page d'aide</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Pour avoir une visite guidée, tu peux regarder cette <span class="open-video-guide" onclick="openVideoGuide();">vidéo</span>.</p>
+          <p>Tu es sur la page du trombinoscope de ton séjour.<br>Ici tu pourras voir et mettre à jour les photos des jeunes. Pour ajouter ou modifier un photo, clique dessus.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ################################## MAIN #################################### -->
+  
+  <div class="col-lg-10 col-md-10 col-sm-12 col-12 mx-auto page-container">
+  
+    <div id="navigation">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#help-modal"><i class="bi bi-question"></i></button>
+        <a id="a-previous" href=""><button type="button" class="btn btn-secondary"><i class="bi bi-arrow-up"></i></button></a>
+    </div>
+
+    <header class="border-bottom admin-header">
+      <h1>Trombinoscope</h1>
+    </header>
+    <main id="main">
+      <div class="row" id="liste-photo">
+        <!-- Filled with javascript -->
+      </div>
+      <form id="trombinoscope-page-form-modify-jeune">
+        <input id="modify-jeune-sejour" name="sejour" type="hidden">
+        <input id="modify-jeune-cle" name="cle" type="hidden">
+        <input id="modify-jeune-prenom" name="prenom" type="hidden">
+        <input id="modify-jeune-nom" name="nom" type="hidden">
+        <input id="modify-jeune-age" name="age" type="hidden">
+        <input id="modify-jeune-equipe" name="equipe" type="hidden">
+        <input id="modify-jeune-photo" name="photo" type="file">
+        <input type="submit" class="btn btn-primary" id="modify-jeune-btn-submit"></button>
+      </form>
+    </main>
+  </div>
+
+  <!-- ################################# SCRIPT ################################### -->
+
+  <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="../js/jquery-3.7.1.min.js"></script>
+  <script type="text/javascript" src="../js/filrouge.js"></script>
+
+  <script type="text/javascript">
+
+    function loadPage() {
+        var cleSejour = getHttpParam("sejour");
+        $("#modify-jeune-sejour").val(cleSejour);
+        $("#a-previous").attr('href', "accueil.html?sejour=" + cleSejour);
+        $.ajax({
+            url: "get_jeunes.php",
+            type: "POST",
+            data: {
+                sejour : cleSejour,
+                ordre : "alphabetique"
+            },
+            success: function(ajaxResponse) {
+                var response = JSON.parse(ajaxResponse);
+                var listePhoto = "";
+                for (let i = 0; i < response.content.jeunes.length; i++) {
+                    var nom = response.content.jeunes[i].NOM;
+                    var prenom = response.content.jeunes[i].PRENOM;
+                    var cle = response.content.jeunes[i].CLE;
+                    var photo = (response.content.jeunes[i].PHOTO != "") ? response.content.jeunes[i].PHOTO : "site/addme.jpg";
+                    var equipe = response.content.jeunes[i].EQUIPE;
+                    var attributeAge = (response.content.jeunes[i].AGE == 0) ? "" : response.content.jeunes[i].AGE;
+                    var attributes = "data-jeune-cle='" + escapeQuote(cle) + "' data-jeune-nom='" + escapeQuote(nom) + "' data-jeune-prenom='" + escapeQuote(prenom) + "' " +
+                                       " data-jeune-equipe='" + equipe + "' data-jeune-photo='" + photo + "' data-jeune-age='" + attributeAge + "'";
+                    listePhoto += "<div class='col-lg-2 col-md-3 col-sm-4 col-6'>";
+                    listePhoto += "  <div>" + prenom + " " + nom + "</div>";
+                    listePhoto += "  <img src='../photos/" + photo + "' alt='Pas de photo' " + attributes + " class='trombi-photo'/>";
+                    listePhoto += "</div>";
+                }
+                $("#liste-photo").html(listePhoto);
+            }
+        });
+    }
+
+    $("body").on('click', '.trombi-photo', function (event) {
+        $("#modify-jeune-cle").val($(this).attr('data-jeune-cle'));
+        $("#modify-jeune-nom").val($(this).attr('data-jeune-nom'));
+        $("#modify-jeune-prenom").val($(this).attr('data-jeune-prenom'));
+        $("#modify-jeune-age").val($(this).attr('data-jeune-age'));
+        $("#modify-jeune-equipe").val($(this).attr('data-jeune-equipe'));
+        $("#modify-jeune-photo").val("");
+        $("#modify-jeune-photo").click();
+    });
+
+    $("#modify-jeune-photo").change(function() {
+        if ($(this).val() != "") {
+            $("#modify-jeune-btn-submit").click();
+        }
+    });
+
+    $("#trombinoscope-page-form-modify-jeune").submit(function(event){   
+        event.preventDefault();
+
+        var prenom = $("#modify-jeune-prenom").val();
+
+        if (prenom.trim().length > 0) {
+            var formData = new FormData($(this)[0]);
+            $.ajax({
+                url: "modify_jeune.php",
+                type: "POST",
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    $('#modify-jeune-modal').modal('toggle');
+                    toastSuccess(response.message);
+                    loadPage();
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la modification : " + xhr.responseText);
+                }
+            });
+        } else {
+          toastWarning("Le prénom du jeune ne peut pas être vide.");
+        }
+    });
+
+    $(document).ready(function () {
+        loadPage();
+    });
+
+  </script>
+</body>
+</html>

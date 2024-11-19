@@ -1,0 +1,43 @@
+<html>
+<head>
+   <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+    <style>
+        body {background-color: powderblue;}
+        .toto-test {
+            color: blue;
+            background-repeat: no-repeat;
+            width: 320px;
+            height: 1050px;
+            background-image: url('photos/site/hogwarts_flag.png');
+            position: absolute;
+            top: 0px;
+        }
+        #a {
+            text-align: center;
+            width: 100%;
+            position: absolute;
+            z-index: -20;
+        }
+        #b {
+            text-align: center;
+            transform: translateX(-50%);
+            left: 50%;
+            position: absolute;
+            width: 1920px;
+        }
+    </style>
+</head>
+<body>
+    <div id="a">
+        <img src="photos/site/hogwarts_background.jpg"/>
+    </div>
+    <div id="b">
+        <div class="toto-test" style="left:300px;">TOTO TEST</div>
+        <div class="toto-test" style="left:620px;">TOTO TEST</div>
+        <div class="toto-test" style="left:940px;">TOTO TEST</div>
+        <div class="toto-test" style="left:1260px;">TOTO TEST</div>
+    </div>
+</body>
+</html>

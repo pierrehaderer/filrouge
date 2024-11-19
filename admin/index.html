@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+   <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="../css/bootstrap-icons/font/bootstrap-icons.min.css"/>
+  <link type="text/css" rel="stylesheet" href="../css/filrouge.css"/>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+  <div class="toast-container"></div>
+  <div class="overlay"><div class="bi bi-hourglass-split spinner"></div></div>
+
+  <!-- ################################# MODALS ################################### -->
+
+  <div id="create-sejour-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Créer un nouveau séjour</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <span class="input-group-text">Nom du séjour</span>
+            <input id="nom-sejour" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-create-sejour">Créer</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="join-sejour-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Rejoindre un séjour existant</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <span class="input-group-text">Clé du séjour</span>
+            <input id="cle-sejour" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-join-sejour">Rejoindre</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="help-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Page d'aide</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <p>Pour avoir une visite guidée, tu peux regarder cette <span class="open-video-guide" onclick="openVideoGuide();">vidéo</span>.</p>
+            <p>Le fil rouge dont il est question ici est un jeu qui s'étale sur toute la durée d'un séjour de vacances. Pendant ce jeu, les animateurs proposent des défis 
+            aux jeunes et leur attribuent des points lorsqu'ils valident ces défis. Les défis peuvent être tout et n'importe quoi : des énigmes, des épreuves, en solo ou collectivement.
+            Un tableau des scores permettra aux jeunes de suivre leurs classements. Et un trombinoscope très simple à constituer permettra aux animateurs d'apprendre plus 
+            agréablement les prénoms des jeunes du séjour.</p>
+            <p>Ce site te permet de mettre en place très facilement un fil rouge pour ton séjour :
+                <ul>
+                  <li> Avant le début de ton séjour : 
+                    <ul>
+                      <li>Initialise ton séjour sur cette page.</li>
+                      <li>Tu pourras ensuite partager sa page d'accueil avec les autres animateurs.</li>
+                      <li>De là, vous pourrez ajouter les animateurs, les jeunes et vous pourrez créer vos premiers défis.</li>
+                    </ul>
+                  <li>Pendant ton séjour, vous pourrez revenir sur ce site pour :
+                    <ul>
+                      <li>Afficher le tableau des scores de manière bien visible (TV du foyer + RaspberryPi par exemple).<br>
+                      Dans ton navigatuer, utilise la touche F11 pour le mettre en plein écran et le zoom pour ajuster la taille.</li>
+                      <li>Remplir le trombiniscope avec les photos des jeunes.</li>
+                      <li>Ajouter de nouveaux défis.</li>
+                      <li>Valider les défis que les jeunes réussiront.</li>
+                    </ul>
+                  </li>
+                </ul>
+            </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ################################## MAIN #################################### -->
+
+  <div class="col-lg-10 col-md-10 col-sm-12 col-12 mx-auto page-container">
+
+    <div id="navigation">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#help-modal"><i class="bi bi-question"></i></button>
+    </div>
+
+    <header class="border-bottom admin-header">
+      <h1>Le fil rouge "Calvin"</h1>
+    </header>
+  
+    <main id="main">
+      <div>
+        <div class="admin-home-text">Ici tu es à la page d'accueil du fil rouge.</div>
+        <div class="admin-home-text">Ce fil rouge c'est : Un séjour, des animateurs, des jeunes, des défis, un tableau des scores, un trombinoscope et des pages web pour te simplifier tout ça.</div>
+        <div class="admin-home-text">Tu peux créer un nouveau séjour ou accéder à un séjour existant si tu disposes de sa clé. Bon fil rouge !</div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-12 admin-home-col-button">
+          <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#create-sejour-modal">Créer un nouveau séjour</button>
+        </div>
+        <div class="col-md-6 col-12 admin-home-col-button">
+          <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#join-sejour-modal">Rejoindre un séjour existant</button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="pt-5 my-5 text-body-secondary border-top">
+      <div>Created by <span data-bs-toggle="tooltip" title="Des idées - Des suggestions pierre.haderer@gmail.com">Pierre Haderer.</span></div>
+    </footer>
+  </div>
+
+  <!-- ################################# SCRIPT ################################### -->
+
+  <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="../js/jquery-3.7.1.min.js"></script>
+  <script type="text/javascript" src="../js/filrouge.js"></script>
+
+  <script type="text/javascript">
+
+    $("#btn-create-sejour").click(function (event) {
+        var nom = $("#nom-sejour").val();
+
+        if (nom.trim().length > 0) {
+            $.ajax({
+                url: "create_sejour.php",
+                type: "POST",
+                data: {
+                    nom: nom
+                },
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    var url = window.location.href.replace("index.html", "");
+                    var confirmation = "<div class='admin-home-text'>Parfait ! La clé de ton séjour est : \"<b>" + response.content.cle + "</b>\". Ne la perds pas, tu n'auras aucun moyen de la retrouver ...</div>";
+                    confirmation += "<div class='admin-home-text'>Pour continuer, partage avec les autres animateurs l'adresse suivante, elle permet de se rendre directement sur votre page d'acceuil :</div>";
+                    confirmation += "<div class='admin-home-text'><a href='accueil.html?sejour=" + response.content.cle + "'>" + url + "accueil.html?sejour=" + response.content.cle + "</a></div>";
+                    confirmation += "<div class='admin-home-text'>Tu peux maintenant y aller pour commencer à configurer le séjour.</div>";
+                    $("#main").html(confirmation);
+                    $('#create-sejour-modal').modal('toggle');
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la creation : " + xhr.responseText);
+                }
+            });
+        } else {
+          toastWarning("Le nom du séjour ne peux pas être vide.");
+        }
+    });
+
+    $("#btn-join-sejour").click(function (event) {
+        var cle = $("#cle-sejour").val();
+
+        if (cle.trim().length > 0) {
+            $.ajax({
+                url: "get_sejour.php",
+                type: "POST",
+                data: {
+                    sejour: cle
+                },
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    redirect("accueil.html?sejour=" + cle);
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la collecte des informations : " + xhr.responseText);
+                }
+            });
+        } else {
+          toastWarning("La cle du séjour ne peut pas être vide.");
+        }
+    });
+
+    $(document).ready(function () {
+        activateTooltips();
+    });
+  </script>
+</body>
+</html>

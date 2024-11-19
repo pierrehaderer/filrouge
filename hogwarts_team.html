@@ -1,0 +1,85 @@
+<html>
+<head>
+   <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="css/filrouge.css"/>
+  <meta charset="UTF-8">
+</head>
+<body id="body-scoreboard-hogwarts-team">
+
+  <div class="toast-container"></div>
+
+  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mx-auto">
+    <main id="main">
+      <div id="background-hogwarts">
+        <img src="photos/site/hogwarts_background.jpg">
+      </div>
+      <div id="teams-hogwarts-team-container">
+        <!-- Filled with javascript -->
+      </div>
+    </main>
+  </div>
+
+  <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="js/jquery-3.7.1.min.js"></script>
+  <script type="text/javascript" src="js/filrouge.js"></script>
+
+  <script type="text/javascript">
+
+    var timerAvantReload = 20000;
+
+    function getScores() {
+      var sejour = getHttpParam("sejour");
+  
+      $.ajax({
+        url: "get_infos.php",
+        type: "POST",
+        data: {
+          sejour : sejour,
+          ordre : "score"
+        },
+        success: function(ajaxResponse) {
+          var response = JSON.parse(ajaxResponse);
+          if (response.code == 0) {
+            if (response.content.sejour.TABLEAU == "HOGWARTS_TEAM") {
+              var teamCount = Math.min(response.content.equipes.length, 6);
+              var teamContent = "";              
+              for (let i = 0; i < teamCount; i++) {
+                var hogwartsFlag = "background-image: url(\"photos/site/hogwarts_flag_" + response.content.equipes[i].COULEUR + ".png\");";
+                var left = "left: " + ((1920 - 320 * teamCount) / 2 + 320 * i) + ";";
+                var color = (response.content.equipes[i].COULEUR == "BLUE" || response.content.equipes[i].COULEUR == "PURPLE") ? "color: white;" : "color: black;";
+                var score = "<span class='teams-hogwarts-team-score'>" + response.content.equipes[i].SCORE + " points</span>";
+                teamContent += "<div class='teams-hogwarts-team' style='" + hogwartsFlag + left + color + "'>" + response.content.equipes[i].NOM + "<br>" + score + "</div>";
+              }
+              $("#teams-hogwarts-team-container").html(teamContent);
+            } else {
+              redirectTableauDesScores(response.content.sejour.TABLEAU, sejour);
+            }
+          } else {
+            toastError("Une erreur est survenue lors de la collecte des informations : " + response.message);
+          }
+        },
+        error(xhr) {
+          toastError("Une erreur est survenue lors de la collecte des informations : " + xhr.responseText);
+        }
+      });
+    }
+        
+    function reloadPage() {
+      getScores();
+    }
+
+    function scrollUpAndReload() {
+      getScores();
+      setTimeout(reloadPage, timerAvantReload);
+    }
+
+    $(document).ready(function () {
+      getScores();
+      setTimeout(reloadPage, timerAvantReload);
+    });
+
+  </script>
+</body>
+</html>

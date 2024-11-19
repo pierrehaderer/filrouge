@@ -1,0 +1,142 @@
+<html>
+<head>
+   <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="css/filrouge.css"/>
+  <meta charset="UTF-8">
+</head>
+<body id="body-scoreboard-ready-player-one">
+
+  <div class="toast-container"></div>
+
+  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mx-auto page-container" id="scoreboard-ready-player-one">
+    <main id="main">
+      <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2">
+            <div class="score-ready-player-one rang-ready-player-one" style="color: green">RANG</div>
+            <div class="parent-ready-player-one" id="parent-rang">
+                <!-- Filled with javascript -->
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+            <div class="score-ready-player-one" style="color: green">JOUEUR</div>
+            <div class="parent-ready-player-one" id="parent-joueur">
+                <!-- Filled with javascript -->
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2">
+            <div class="score-ready-player-one" style="color: green">SCORE</div>
+            <div class="parent-ready-player-one" id="parent-score">
+                <!-- Filled with javascript -->
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-1">
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-1">
+			<div class="photo-scoreboard-container">
+				<div id="photo1" class="photo-scoreboard-ready-player-one"></div>
+				<div id="photo2" class="photo-scoreboard-ready-player-one"></div>
+				<div id="photo3" class="photo-scoreboard-ready-player-one"></div>
+			</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="js/jquery-3.7.1.min.js"></script>
+  <script type="text/javascript" src="js/filrouge.js"></script>
+
+  <script type="text/javascript">
+
+    var timerAvantScrollDown = 10000;
+    var timerAvantReload = 50000;
+    var vitesseScrollDown = 60000;
+
+    function getScores() {
+      var sejour = getHttpParam("sejour");
+  
+      $.ajax({
+        url: "get_infos.php",
+        type: "POST",
+        data: {
+          sejour : sejour,
+          ordre : "score"
+        },
+        success: function(ajaxResponse) {
+          var response = JSON.parse(ajaxResponse);
+          if (response.code == 0) {
+            if (response.content.sejour.TABLEAU == "READY_PLAYER_ONE") {
+              var parentRang = "";
+              var parentJoueur = "";
+              var parentScore = "";
+              var position = 1;
+              timerAvantReload = 600 * response.content.jeunes.length;
+              for (let i = 0; i < response.content.jeunes.length; i++) {
+                var nom = response.content.jeunes[i].NOM;
+                var prenom = response.content.jeunes[i].PRENOM;
+                var photo = (response.content.jeunes[i].PHOTO != "") ? response.content.jeunes[i].PHOTO : "site/unknown.jpg";
+                var score = response.content.jeunes[i].SCORE;
+                if (score != 0) {
+                  if (i == 0) {
+                    parentRang += '<div class="score-ready-player-one rang-ready-player-one premier-ready-player-one">' + position + "ER</div>";
+                    parentJoueur += '<div class="score-ready-player-one premier-ready-player-one">' + prenom + " " + nom + "</div>";
+                    parentScore += '<div class="score-ready-player-one premier-ready-player-one">' + score + "</div>";
+                  } else if (i == 1 || i == 2 || i == 3) {
+                    parentRang += '<div class="score-ready-player-one rang-ready-player-one second-ready-player-one">' + position + "EME</div>";
+                    parentJoueur += '<div class="score-ready-player-one second-ready-player-one">' + prenom + " " + nom + "</div>";
+                    parentScore += '<div class="score-ready-player-one second-ready-player-one">' + score + "</div>";
+                  } else {
+                    parentRang += '<div class="score-ready-player-one rang-ready-player-one">' + position + "EME</div>";
+                    parentJoueur += '<div class="score-ready-player-one">' + prenom + " " + nom + "</div>";
+                    parentScore += '<div class="score-ready-player-one">' + score + "</div>";
+                  }
+                  if (i == 0) {
+                    $("#photo1").html("<img src='photos/" + photo + "'>");
+                  } else if (i == 1) {
+                    $("#photo2").html("<img src='photos/" + photo + "'>");
+                  } else if (i == 2) {
+                    $("#photo3").html("<img src='photos/" + photo + "'>");
+                  }
+                  position++;
+                }
+              }
+              $("#parent-rang").html(parentRang);
+              $("#parent-joueur").html(parentJoueur);
+              $("#parent-score").html(parentScore);
+            } else {
+              redirectTableauDesScores(response.content.sejour.TABLEAU, sejour);
+            }
+          } else {
+            toastError("Une erreur est survenue lors de la collecte des informations : " + response.message);
+          }
+        },
+        error(xhr) {
+          toastError("Une erreur est survenue lors de la collecte des informations : " + xhr.responseText);
+        }
+      });
+    }
+        
+    function scrollDown() {
+      setTimeout(scrollUpAndReload, timerAvantReload);
+      $('.parent-ready-player-one').animate({scrollTop: 1500}, vitesseScrollDown);
+    }
+
+    function scrollUpAndReload() {
+      $('.parent-ready-player-one').stop();
+      getScores();
+      $('.parent-ready-player-one').animate({scrollTop: 0}, 100);
+      setTimeout(scrollDown, timerAvantScrollDown);
+    }
+
+    $(document).ready(function () {
+      getScores();
+      setTimeout(scrollDown, timerAvantScrollDown);
+    });
+
+  </script>
+</body>
+</html>

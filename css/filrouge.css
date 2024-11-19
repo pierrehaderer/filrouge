@@ -1,0 +1,452 @@
+/* -------------- tableau des scores ready player one -------------- */
+
+@font-face {
+    font-family: "Font Score Board";
+    src: url('SevenSegment.ttf');
+}
+
+.score-ready-player-one {
+    color : red;
+    font-family: "Font Score Board", Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: -10px;
+}
+
+.rang-ready-player-one {
+    text-align: right;
+}
+
+.premier-ready-player-one {
+    color : yellow;
+}
+
+.second-ready-player-one {
+    color : orange;
+}
+
+.parent-ready-player-one {
+    height: 255px;
+    padding-top: 1px;
+    overflow: hidden;
+}
+
+#body-scoreboard-ready-player-one {
+    background-color:#070611;
+}
+
+#scoreboard-ready-player-one {
+    width: 756px;
+    height: 642px;
+    background-image: url('../photos/site/ready_player_one_background.png');
+}
+
+#scoreboard-ready-player-one .row {
+    margin-top: 165px;
+}
+
+.photo-scoreboard-ready-player-one-container {
+    color:white;
+    margin-left:50px;
+}
+
+.photo-scoreboard-ready-player-one img {
+    width:100px;
+    margin-bottom: 10px;
+}
+
+/* -------------- tableau des scores hogwarts team -------------- */
+
+@font-face {
+    font-family: "Font Harry Potter";
+    src: url('HarryP.ttf');
+}
+
+#body-scoreboard-hogwarts-team {
+    background-color:#070611;
+}
+
+#background-hogwarts {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    z-index: -20;
+}
+
+#teams-hogwarts-team-container {
+    text-align: center;
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
+    width: 1920px;
+}
+
+.teams-hogwarts-team {
+    text-align: center;
+    padding-top: 300px;
+    font-family: "Font Harry Potter", Helvetica, Arial, sans-serif;
+    font-size: 60px;
+    background-repeat: no-repeat;
+    width: 320px;
+    height: 1050px;
+    position: absolute;
+    top: 0px;
+}
+
+.teams-hogwarts-team-score {
+    font-size: 50px !important;
+}
+
+.teams-hogwarts-team-second-row {
+    top: 540px;
+}
+
+/* -------------- tableau des scores hogwarts solo -------------- */
+
+.score-hogwarts-solo {
+    color : lightgrey;
+    font-family: "Font Harry Potter", Helvetica, Arial, sans-serif;
+    font-size: 35px;
+    margin-top: -10px;
+}
+
+.rang-hogwarts-solo {
+    text-align: right;
+}
+
+.premier-hogwarts-solo {
+    color : yellow;
+}
+
+.second-hogwarts-solo {
+    color : orange;
+}
+
+.parent-hogwarts-solo {
+    height: 555px;
+    padding-top: 1px;
+    overflow: hidden;
+}
+
+#body-scoreboard-hogwarts-solo {
+    background-color:#070611;
+}
+
+#scoreboard-hogwarts-solo {
+    width: 1050px;
+    height: 960px;
+    background-image: url('../photos/site/hogwarts_board.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+#scoreboard-hogwarts-solo .row {
+    margin-top: 140px;
+}
+
+.photo-scoreboard-hogwarts-solo-container {
+    color:white;
+    margin-left:50px;
+}
+
+.photo-scoreboard-hogwarts-solo img {
+    width:100px;
+    margin-bottom: 10px;
+}
+
+/* -------------- toutes les pages -------------- */
+
+.page-container {
+    padding: .5rem !important;
+}
+
+.open-video-guide {
+    color: blue;
+    font-style: italic;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#navigation {
+    position: absolute;
+}
+
+#navigation button {
+    padding-bottom: 7px;
+    padding-top: 7px;
+    border-radius: 20px;
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #ed143d;
+    --bs-btn-border-color: #ab0f0f;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #bd1031;
+    --bs-btn-hover-border-color: #ab0f0f;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #bd1031;
+    --bs-btn-active-border-color: #ab0f0f;
+    --bs-btn-disabled-bg: #ed143d;
+    --bs-btn-disabled-border-color: #ab0f0f;
+}
+
+.filrouge-table {
+    border-collapse: collapse;
+    margin: 10px auto;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    width: 95%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.filrouge-table thead tr {
+    background-color: #de8c8c;
+    color: #ffffff;
+    text-align: left;
+}
+
+.filrouge-table th, .filrouge-table td {
+    padding: 10px 10px;
+    border-right: 1px solid #dddddd;
+    border-left: 1px solid #dddddd;
+}
+
+.filrouge-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.filrouge-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.filrouge-table tbody tr:last-of-type {
+    border-bottom: 2px solid #de8c8c;
+}
+
+.filrouge-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+/* -------------- toast -------------- */
+
+.toast-success {
+    position: fixed;
+    transform: translateX(-50%);
+    left: 50%;
+    top: 0;
+    margin-top: 20px;
+    --bs-toast-color: white;
+    --bs-toast-bg: #5ddd5d;
+    --bs-toast-font-size: ;
+    --bs-toast-max-width: 780px;
+    z-index: 9999;
+    transition: opacity 0.15s linear !important;
+}
+
+.toast-warning {
+    position: fixed;
+    transform: translateX(-50%);
+    left: 50%;
+    top: 0;
+    margin-top: 60px;
+    --bs-toast-color: white;
+    --bs-toast-bg: #ddaf41;
+    --bs-toast-font-size: ;
+    --bs-toast-max-width: 780px;
+    z-index: 9999;
+    transition: opacity 0.15s linear !important;
+}
+
+.toast-error {
+    position: fixed;
+    transform: translateX(-50%);
+    left: 50%;
+    top: 0;
+    margin-top: 60px;
+    --bs-toast-color: white;
+    --bs-toast-bg: #ddaf41;
+    --bs-toast-font-size: ;
+    --bs-toast-max-width: 780px;
+    z-index: 9999;
+    transition: opacity 0.15s linear !important;
+}
+
+.spinner {
+     animation: rotation infinite 3s linear;
+     font-size: 3rem;
+     margin: 200px 52% 0px 48%;
+     padding-right: 48px;
+}
+
+/* ------------- overlay ------------- */
+
+@keyframes rotation {
+    from {
+      transform:rotate(0deg);
+    }
+  
+    to {
+      transform:rotate(360deg);
+    }
+}
+
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    z-index: 9000;
+}
+
+/* -------------- modal -------------- */
+
+.modal-header {
+    color: #fff;
+    background-color: #ed143d;
+}
+
+.input-group {
+    margin-bottom: 6px;
+}
+
+.input-group input {
+    padding-top: 2px;
+}
+
+.input-group-text {
+    min-width: 150px;
+    padding-top: 2px;
+}
+
+
+/* -------------- index -------------- */
+
+.admin-home-text {
+    padding-bottom: 2px;
+}
+
+.admin-header {
+    color: #bd1031;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.admin-home-col-button {
+    text-align: center;
+    padding: 20px;
+}
+
+/* -------------- accueil -------------- */
+
+#sejour-nom-title {
+    text-transform: uppercase;
+}
+
+.accueil-button-container {
+    text-align: center;
+}
+
+.accueil-button-container button {
+    margin-bottom: 10px;
+}
+
+#download-template-container {
+    text-align: right;
+}
+
+#animateur-list tr td:last-of-type, #jeune-list tr td:last-of-type, #defi-list tr td:last-of-type {
+    text-align: center;
+    width: 170px;
+}
+
+#view-defis-list tr td:last-of-type, #view-defis-header tr th:last-of-type {
+    text-align: center;
+    width: 60px;
+}
+
+#view-defis-list tr td:nth-last-child(2), #view-defis-header tr th:nth-last-child(2) {
+    text-align: center;
+    width: 135px;
+}
+
+#view-defis-list tr td:nth-last-child(3), #view-defis-list tr td:nth-last-child(4) {
+    text-align: center;
+}
+
+.view-defis-jeune-text {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+#equipe-list tr td:last-of-type, #equipe-header tr th:last-of-type {
+    text-align: center;
+    width: 120px;
+}
+
+.equipe-color {
+    margin-right: 5px;
+}
+/* -------------- animateur -------------- */
+
+#modify-jeune-img {
+    max-height:150px;
+}
+
+#validate-defi-jeunes tr td:last-of-type, #validate-defi-header tr th:last-of-type {
+    text-align: center;
+    width: 85px;
+}
+
+#validate-defi-jeunes tr td:nth-last-child(2), #validate-defi-header tr th:nth-last-child(2) {
+    text-align: center;
+    width: 145px;
+}
+
+#validate-defi-jeunes tr td:nth-last-child(3), #validate-defi-header tr th:nth-last-child(3) {
+    text-align: center;
+}
+
+#validate-defi-jeunes tr td:nth-last-child(4), #validate-defi-header tr th:nth-last-child(4) {
+    text-align: center;
+}
+
+.validate-defi-checkbox {
+    margin-left: 5px;
+}
+
+#create-defi-explanation, #modify-defi-explanation {
+    font-style: italic;
+}
+
+#photo-jeune {
+    z-index:9000;
+    position: absolute;
+    max-width: 150px;
+    display: none;
+}
+#photo-jeune img {
+    max-width: 150px;
+}   
+
+#animateur-page-form-modify-jeune, #trombinoscope-page-form-modify-jeune {
+    display: none;
+}
+/* ------------ trombinoscope ------------ */
+
+#liste-photo {
+    text-align: center;
+    font-size: 20px;
+}
+
+.trombi-photo {
+    max-width: 100%;
+    margin-bottom: 15px;
+}
+
+
+
+

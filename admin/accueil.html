@@ -1,0 +1,1272 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+   <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="../css/bootstrap-icons/font/bootstrap-icons.min.css"/>
+  <link type="text/css" rel="stylesheet" href="../css/filrouge.css"/>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+  <div class="toast-container"></div>
+  <div class="overlay"><div class="bi bi-hourglass-split spinner"></div></div>
+
+  <!-- ################################# MODALS ################################### -->
+
+  <!-- ################################# SEJOUR ################################### -->
+
+  <div id="configure-sejour-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Configurer ton séjour</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row accueil-button-container">
+            <div class="col-md-6 col-12 accueil-button-container">
+              <button type="button" class="btn btn-lg btn-primary" id="btn-create-example">Créer des données d'exemple</button>
+            </div>
+            <div class="col-md-6 col-12 accueil-button-container">
+              <button type="button" class="btn btn-lg btn-primary" id="btn-delete-example">Supprimer les données d'exemple</button>
+            </div>
+          </div>
+          <div class="input-group">
+           <span class="input-group-text">Nom</span>
+            <input id="configure-sejour-nom" type="text" class="form-control">
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">Méthode de calcul</span>
+            <select class="form-select" id="configure-sejour-methode">
+              <!-- Filled with javascript -->
+            </select>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">Score</span>
+            <select class="form-select" id="configure-sejour-equipe">
+              <option value="0">Score individuel</option>
+              <option value="1">Score en équipe</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">Tableau des scores</span>
+            <select class="form-select" id="configure-sejour-tableau">
+              <!-- Filled with javascript -->
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-configure-sejour">Valider</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ############################### ANIMATEUR ################################# -->
+
+  <div id="create-animateur-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Ajouter un animateur</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <span class="input-group-text">Nom</span>
+            <input id="animateur-nom" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-create-animateur">Ajouter</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modify-animateur-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Modifier l'animateur</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <span class="input-group-text">Nom</span>
+            <input id="modify-animateur-nom" type="text" class="form-control">
+          </div>
+          <input id="modify-animateur-cle" type="hidden">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-modify-animateur">Modifier</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="delete-animateur-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Supprimer un animateur</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div>Etes-vous sûr de vouloir supprimer l'animateur '<span id="delete-animateur-nom"></span>' ?</div>
+          <div>ATTENTION : Tous ses défis seront supprimés.</div>
+          <input id="delete-animateur-cle" type="hidden">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-delete-animateur">Supprimer</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ################################# EQUIPE ################################### -->
+
+  <div id="configure-equipe-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Gestion des équipes</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body row">
+          <div class="col-md-12 col-12">
+            <table class="filrouge-table">
+              <thead id="equipe-header"><tr><th>Equipe</th><th></th></tr></thead>
+              <tbody id="equipe-list">
+                <!-- Filled with javascript -->
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-10 col-8">
+            <div class="input-group">
+              <span class="input-group-text">Nouvelle équipe</span>
+              <input id="equipe-nom" type="text" class="form-control">
+            </div>
+            <div class="input-group">
+              <span class="input-group-text">Couleur</span>
+              <select class="form-select" id="equipe-couleur">
+                <!-- Filled with javascript -->
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2 col-4">
+            <button type="button" class="btn btn-primary" id="btn-create-equipe">Ajouter</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Terminer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modify-equipe-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Modifier l'équipe</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <span class="input-group-text">Nom</span>
+            <input id="modify-equipe-nom" type="text" class="form-control">
+          </div>
+          <div class="input-group">
+            <span class="input-group-text">Couleur</span>
+            <select class="form-select" id="modify-equipe-couleur">
+              <!-- Filled with javascript -->
+            </select>
+          </div>
+          <input id="modify-equipe-cle" type="hidden">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-modify-equipe">Modifier</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="delete-equipe-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Supprimer une équipe</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div>Etes-vous sûr de vouloir supprimer l'équipe '<span id="delete-equipe-nom"></span>' ?</div>
+          <input id="delete-equipe-cle" type="hidden">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-delete-equipe">Supprimer</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ################################# JEUNE ################################### -->
+
+  <div id="create-jeune-modal" class="modal modal-lg fade">
+    <form id="form-create-jeune">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Ajouter des jeunes</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <h3>Ajout d'un jeune</h3>
+            <div class="input-group">
+              <span class="input-group-text">Prénom *</span>
+              <input id="jeune-prenom" name="prenom" type="text" class="form-control">
+            </div>
+            <div class="input-group">
+              <span class="input-group-text">Nom</span>
+              <input id="jeune-nom" name="nom" type="text" class="form-control">
+            </div>
+            <div class="input-group">
+              <span class="input-group-text">Age</span>
+              <input id="jeune-age" name="age" type="text" class="form-control">
+            </div>
+            <div class="input-group equipe-element">
+              <span class="input-group-text">Equipe</span>
+                <select class="form-select" id="jeune-equipe" name="equipe">
+                  <!-- Filled with javascript -->
+                </select>
+            </div>
+            <div class="input-group">
+              <span class="input-group-text">Photo</span>
+              <input id="jeune-photo" name="photo" type="file" class="form-control">
+            </div>
+          </div>
+
+          <div class="modal-body row">
+            <h3>Ajout de plusieurs jeunes</h3>
+            <div class="col-md-8 col-8">
+              <div class="input-group">
+                <span class="input-group-text" onclick="document.getElementById('jeune-csv').click()">Fichier csv</span>
+                <input id="fake-jeune-csv" type="text" class="form-control" onclick="document.getElementById('jeune-csv').click()">
+                <input type='file' id="jeune-csv" name="csv" style="display:none">
+              </div>
+            </div>
+            <div class="col-md-4 col-4" id="download-template-container">
+              <a href="template.csv"><button type="button" class="btn btn-secondary">Télécharger template csv</button></a>
+            </div>
+          </div>
+
+          <input id="jeune-sejour" name="sejour" type="hidden">
+
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" id="create-jeune-button-validate" value="Ajouter"></button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div id="modify-jeune-modal" class="modal modal-lg fade">
+    <form id="form-modify-jeune">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Modifier un jeune</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-8 col-12">
+                <div class="input-group">
+                  <span class="input-group-text">Prénom *</span>
+                  <input id="modify-jeune-prenom" name="prenom" type="text" class="form-control">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-text">Nom</span>
+                  <input id="modify-jeune-nom" name="nom" type="text" class="form-control">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-text">Age</span>
+                  <input id="modify-jeune-age" name="age" type="text" class="form-control">
+                </div>
+                <div class="input-group equipe-element">
+                  <span class="input-group-text">Equipe</span>
+                    <select class="form-select" id="modify-jeune-equipe" name="equipe">
+                      <!-- Filled with javascript -->
+                    </select>
+                </div>
+                <div class="input-group">
+                  <span class="input-group-text">Photo</span>
+                  <input id="modify-jeune-photo" name="photo" type="file" class="form-control">
+                </div>
+                <input id="modify-jeune-sejour" name="sejour" type="hidden">
+                <input id="modify-jeune-cle" name="cle" type="hidden">
+              </div>
+              <div class="col-md-4 col-12">
+                <img id="modify-jeune-img" src="" alt="Pas de photo ...">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" value="Modifier"></button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div id="delete-jeune-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Supprimer un jeune</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div>Etes-vous sûr de vouloir supprimer le jeune '<span id="delete-jeune-prenom"></span> <span id="delete-jeune-nom"></span>' ?</div>
+          <div>Note : Il ne sera pas supprimer dans la vraie vie ... <i class="bi bi-emoji-expressionless"></i></div>
+          <input id="delete-jeune-cle" type="hidden">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-delete-jeune">Supprimer</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-defis-jeune-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Historique des défis</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6 col-12 view-defis-jeune-text">Jeune : <span id="view-defis-jeune-nom"></span> <span id="view-defis-jeune-prenom"></span></div>
+            <div class="col-md-6 col-12 view-defis-jeune-text">Score actuel : <span id="view-defis-jeune-score"></div>
+          </div>
+          <table class="filrouge-table">
+            <thead id="view-defis-header"><tr><th>Défi</th><th>Pos</th><th>Score</th><th>Date</th><th></th></tr></thead>
+            <tbody id="view-defis-list">
+              <!-- Filled with javascript -->
+            </tbody>
+          </table>
+          <input type="hidden" id="view-defis-jeune-cle"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirm-delete-jeune-defi-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Supprimer la validation d'un défi</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div>Etes-vous sûr de vouloir supprimer la validation de ce défi ?</div>
+          <div>Note : Pour corriger une fausse manip, OK.<br>Si c'est pour punir un jeune <i class="bi bi-emoji-frown"></i>, je suis sûr qu'il y a mieux à faire.</div>
+          <input type="hidden" id="delete-jeune-defi-defi"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn-delete-jeune-defi">Supprimer</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ################################# OTHERS ################################### -->
+
+  <div id="previous-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Retour à la page principale</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div>Es-tu sûr de vouloir quitter la page de ce séjour ?</div>
+          <div>Si tu n'as pas noté sa clé, tu ne pourras pas y revenir.</div>
+        </div>
+        <div class="modal-footer">
+          <a href="index.html"><button type="button" class="btn btn-primary">Quitter</button></a>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="help-modal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Page d'aide</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <p>Pour avoir une visite guidée, tu peux regarder cette <span class="open-video-guide" onclick="openVideoGuide();">vidéo</span>.</p>
+            <p>Tu es sur la page d'accueil de ton séjour. Ici tu pourras :</p>
+            <ul>
+              <li>Ajouter - Modifier - Supprimer des animateurs.</li>
+              <li>Ajouter - Modifier - Supprimer des jeunes.<br>On indiquera ici leur appartenance à une équipe lorsque le mode <u>"score en équipe"</u> est activé.
+                <ul>
+                  <li>Les jeunes peuvent être ajoutés un par un ou plusieurs à la fois à partir du template 'csv' téléchargeable dans la fenêtre d'ajout.</li>
+                  <li>Les photos des jeunes pourront être ajoutées dans un second temps.</li>
+                  <li>Pour chaque jeune, il est possible de voir la liste des défis déjà validé et de corriger une erreur de saisie si besoin.</li>
+                </ul>
+              </li>
+              <li>Accéder au trombinoscope.</li>
+              <li>Accéder au tableau des scores (Utilise la touche F11 pour le mettre en plein écran et le zoom pour ajuster la taille).</li>
+              <li>Configurer ton séjour :
+                <ul>
+                  <li>Ajuster les paramètres de ton séjour, en particulier tu pourras passer en mode <u>"score en équipe"</u>.</li>
+                  <li>Créer et supprimer des données d'exemple pour expérimenter.</li>
+                </ul>
+              </li>
+              <li>Ajouter - Modifier - Supprimer des équipes lorsque le mode <u>"score en équipe"</u> est activé.</li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ################################## MAIN #################################### -->
+
+  <div class="col-lg-10 col-md-10 col-sm-12 col-12 mx-auto page-container">
+
+    <div id="navigation">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#help-modal"><i class="bi bi-question"></i></button>
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#previous-modal"><i class="bi bi-arrow-up"></i></button>
+    </div>
+
+    <header class="border-bottom admin-header">
+      <h1>
+        Accueil <span id="sejour-nom-title"></span>
+      </h1>
+    </header>
+  
+    <main id="main">
+      <div class="row accueil-button-container">
+        <div class="col-md-12 col-12">
+          <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#create-animateur-modal">Ajouter un animateur</button>
+          <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#create-jeune-modal" id="btn-open-modal-create-jeune">Ajouter des jeunes</button>
+          <button type="button" class="btn btn-lg btn-primary" id="btn-goto-scoreboard" onclick="">Tableau des scores</button>
+          <a id="a-trombi" href=""><button type="button" class="btn btn-lg btn-primary" id="btn-goto-scoreboard">Trombinoscope</button></a>
+          <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#configure-sejour-modal">Configurer le séjour</button>
+          <button type="button" class="btn btn-lg btn-primary equipe-element" data-bs-toggle="modal" data-bs-target="#configure-equipe-modal" id="gestion-equipe">Gérer les équipes</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <table class="filrouge-table">
+            <thead><tr><th colspan="2">Animateurs</th></tr></thead>
+            <tbody id="animateur-list">
+              <!-- Filled with javascript -->
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6 col-12">
+          <table class="filrouge-table">
+            <thead><tr><th colspan="2">Jeunes</th></tr></thead>
+            <tbody id="jeune-list">
+              <!-- Filled with javascript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <input type="hidden" id="sejour-cle"/>
+      <input type="hidden" id="sejour-tableau"/>
+    </main>
+
+    <footer class="pt-5 my-5 text-body-secondary border-top">
+      <div>Created by <span data-bs-toggle="tooltip" title="Des idées - Des suggestions pierre.haderer@gmail.com">Pierre Haderer.</span></div>
+    </footer>
+  </div>
+
+  <!-- ################################# SCRIPT ################################### -->
+
+  <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="../js/jquery-3.7.1.min.js"></script>
+  <script type="text/javascript" src="../js/filrouge.js"></script>
+
+  <script type="text/javascript">
+
+    var sejourMethodes = { AGE: "Le score gagné à chaque défi est plus grand pour les plus jeunes", EQUAL: "Le score gagné à chaque défi est le même pour tous" };
+    var sejourTableauxIndividuel = { READY_PLAYER_ONE: "Ready player one", HOGWARTS_SOLO: "Harry Potter individuel" };
+    var sejourTableauxEquipe = { HOGWARTS_TEAM: "Harry Potter en équipe" };
+    var colorLabels =  { YELLOW: "Jaune", ORANGE: "Orange", RED: "Rouge", MAGENTA: "Magenta", PURPLE: "Violet", BLUE: "Bleu", CYAN: "Cyan", TEAL: "Turquoise", GREEN: "Vert", LIGHT_GREEN: "Vert clair" };
+    var colorCodes = { YELLOW: "#fff100", ORANGE: "#ff8c00", RED: "#e81123", MAGENTA: "#ec008c", PURPLE: "#68217a", BLUE: "#00188f", CYAN: "#00bcf2", TEAL: "#00b294", GREEN: "#009e49", LIGHT_GREEN: "#bad80a" };
+
+    function loadPage() {
+        var cleSejour = getHttpParam("sejour");
+        $("#sejour-cle").val(cleSejour);
+        $("#jeune-sejour").val(cleSejour);
+        $("#modify-jeune-sejour").val(cleSejour);
+        $("#btn-goto-scoreboard").attr('onclick', "openInNewTab('../?sejour=" + cleSejour + "');");
+        $("#a-trombi").attr('href', "trombinoscope.html?sejour=" + cleSejour);
+
+        if (cleSejour.trim().length > 0) {
+            loadOverlay();
+            $.ajax({
+                url: "get_sejour.php",
+                type: "POST",
+                data: {
+                    sejour: cleSejour
+                },
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    $("#sejour-nom-title").html(response.content.sejour.NOM);
+                    $("#sejour-tableau").val(response.content.sejour.TABLEAU);
+                    $("#configure-sejour-nom").val(response.content.sejour.NOM);
+                    $("#configure-sejour-methode").val(response.content.sejour.METHODE);
+                    $("#configure-sejour-equipe").val(response.content.sejour.EQUIPE);
+                    loadSejourMethodes();
+                    loadSejourTableaux();
+                    loadEquipeCouleurs();
+                    if (response.content.sejour.EQUIPE == "0") {
+                        $(".equipe-element").hide(0);
+                    } else {
+                        $(".equipe-element").show(0);
+                    }
+
+                    var animateurList = "";
+                    $.each(response.content.animateurs, function(key, animateur) {
+                      var attributes = "data-animateur-cle='" + escapeQuote(animateur.CLE) + "' data-animateur-nom='" + escapeQuote(animateur.NOM) + "'";
+                      var url = "animateur.html?sejour=" + response.content.sejour.CLE + "&animateur=" + animateur.CLE;
+                      animateurList += "<tr>";
+                      animateurList += "  <td>" + animateur.NOM + "</td>";
+                      animateurList += "  <td>";
+                      animateurList += "    <button type='button' " + attributes + " class='btn btn-primary btn-open-modal-modify-animateur'><i class='bi bi-pencil-fill'></i></button>";
+                      animateurList += "    <button type='button' " + attributes + " class='btn btn-primary btn-open-modal-delete-animateur'><i class='bi bi-trash-fill'></i></button>";
+                      animateurList += "    <a href='" + url + "'><button type='button' class='btn btn-primary'><i class='bi bi-arrow-right-square'></i></button></a>";
+                      animateurList += "  </td>";
+                      animateurList += "</tr>";
+                    });
+                    animateurList = (animateurList.length > 0) ? animateurList : "<tr><td colspan='2'>Pas d'animateur pour le moment</td></tr>";
+                    $("#animateur-list").html(animateurList);
+                    
+                    var equipeList = "";
+                    var equipeOptions = "<option value=''>Aucune équipe</option>";
+                    $.each(response.content.equipes, function(key, equipe) {
+                      var attributes = "data-equipe-cle='" + equipe.CLE + "' data-equipe-nom='" + escapeQuote(equipe.NOM) + "' data-equipe-couleur='" + equipe.COULEUR + "'";
+                      var couleurEquipe = "<span style='background-color:" + colorCodes[equipe.COULEUR] + "' class='equipe-color'>&nbsp;&nbsp;</span>";
+                      equipeList += "<tr>";
+                      equipeList += "  <td>" + couleurEquipe + equipe.NOM + "</td>";
+                      equipeList += "  <td>";
+                      equipeList += "    <button type='button' " + attributes + " class='btn btn-primary btn-open-modal-modify-equipe'><i class='bi bi-pencil-fill'></i></button>";
+                      equipeList += "    <button type='button' " + attributes + " class='btn btn-primary btn-open-modal-delete-equipe'><i class='bi bi-trash-fill'></i></button>";
+                      equipeList += "  </td>";
+                      equipeList += "</tr>";
+                      equipeOptions += "<option value='" + equipe.CLE + "'>" + equipe.NOM + "</option>";
+                    });
+                    equipeList = (equipeList.length == 0) ? "<tr><td colspan='2'>Pas d'équipe pour le moment</td></tr>" : equipeList;
+                    $("#equipe-list").html(equipeList);
+                    $("#jeune-equipe").html(equipeOptions);
+                    $("#modify-jeune-equipe").html(equipeOptions);
+
+                    var jeuneList = "";
+                    $.each(response.content.jeunes, function(key, jeune) {
+                      var displayAge = (jeune.AGE == 0) ? "" : " - " + jeune.AGE + " ans";
+                      var attributeAge = (jeune.AGE == 0) ? "" : jeune.AGE;
+                      var attributes = "data-jeune-cle='" + escapeQuote(jeune.CLE) + "' data-jeune-nom='" + escapeQuote(jeune.NOM) + "' data-jeune-prenom='" + escapeQuote(jeune.PRENOM) + "' " +
+                                         " data-jeune-photo='" + jeune.PHOTO + "' data-jeune-age='" + attributeAge + "' data-jeune-equipe='" + jeune.EQUIPE_CLE + "'";
+                      var couleurEquipe = (response.content.sejour.EQUIPE == "1" && jeune.EQUIPE_COULEUR != "") ? "<span style='background-color:" + colorCodes[jeune.EQUIPE_COULEUR] + "' class='equipe-color'>&nbsp;&nbsp;</span>" : "";
+                      jeuneList += "<tr>";
+                      jeuneList += "  <td> " + couleurEquipe + jeune.PRENOM + " - " + jeune.NOM + displayAge + "</td>";
+                      jeuneList += "  <td>";
+                      jeuneList += "    <button type='button' " + attributes + " class='btn btn-primary btn-open-modal-view-defis-jeune'><i class='bi bi-bookmark-check-fill'></i></button>";
+                      jeuneList += "    <button type='button' " + attributes + " class='btn btn-primary btn-open-modal-modify-jeune'><i class='bi bi-pencil-fill'></i></button>";
+                      jeuneList += "    <button type='button' " + attributes + " class='btn btn-primary btn-open-modal-delete-jeune'><i class='bi bi-trash-fill'></i></button>";
+                      jeuneList += "  </td>";
+                      jeuneList += "</tr>";
+                    });
+                    jeuneList = (jeuneList.length > 0) ? jeuneList : "<tr><td colspan='2'>Pas de jeune pour le moment</td></tr>";
+                    $("#jeune-list").html(jeuneList);
+
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la collecte des informations : " + xhr.responseText);
+                },
+                complete: function() {
+                    unloadOverlay();
+                }
+            });
+        } else {
+          toastError("La cle du séjour ne peut pas être vide.");
+        }
+    }
+
+  <!-- ############################## CONFIGURATION ############################### -->
+
+    function loadSejourMethodes() {
+        var optionsMethodes = "";
+        $.each(sejourMethodes, function(key, label) {
+            optionsMethodes += "<option value='" + key + "'>" + label + "</option>";
+        });
+        $("#configure-sejour-methode").html(optionsMethodes);
+    }
+
+    function loadSejourTableaux() {
+        var optionsTableaux = "";
+        var optionPrecedenteAccessible = false;
+        if ($("#configure-sejour-equipe").val() == "0") {
+            $.each(sejourTableauxIndividuel, function(key, label) {
+                optionsTableaux += "<option value='" + key + "'>" + label + "</option>";
+                optionPrecedenteAccessible |= (key == $("#sejour-tableau").val());
+            });
+        } else {
+            $.each(sejourTableauxEquipe, function(key, label) {
+                optionsTableaux += "<option value='" + key + "'>" + label + "</option>";
+                optionPrecedenteAccessible |= (key == $("#sejour-tableau").val());
+            });
+        }
+        $("#configure-sejour-tableau").html(optionsTableaux);
+        if (optionPrecedenteAccessible) {
+            $("#configure-sejour-tableau").val($("#sejour-tableau").val());
+        }
+    }
+
+    $("#configure-sejour-equipe").on('change', function() {
+        loadSejourTableaux();
+    });
+
+    $("#btn-configure-sejour").click(function (event) {
+        var sejour = $("#sejour-cle").val();
+        var nom = $("#configure-sejour-nom").val();
+        var methode = $("#configure-sejour-methode").val();
+        var equipe = $("#configure-sejour-equipe").val();
+        var tableau = $("#configure-sejour-tableau").val();
+
+        loadOverlay();
+        $.ajax({
+            url: "modify_sejour.php",
+            type: "POST",
+            data: {
+                sejour: sejour,
+                nom: nom,
+                methode: methode,
+                equipe : equipe,
+                tableau: tableau
+            },
+            success: function(ajaxResponse) {
+              var response = JSON.parse(ajaxResponse);
+              if (response.code == 0) {
+                $('#configure-sejour-modal').modal('toggle');
+                toastSuccess(response.message);
+                loadPage();
+              } else {
+                toastError(response.message);
+              }
+            },
+            error(xhr) {
+              toastError("Une erreur est survenue lors de la modification : " + xhr.responseText);
+            },
+            complete: function() {
+                unloadOverlay();
+            }
+        });
+    });
+
+    $("#btn-create-example").click(function (event) {
+        var sejour = $("#sejour-cle").val();
+
+        loadOverlay();
+        $.ajax({
+            url: "create_example.php",
+            type: "POST",
+            data: {
+                sejour: sejour
+            },
+            success: function(ajaxResponse) {
+              var response = JSON.parse(ajaxResponse);
+              if (response.code == 0) {
+                $('#configure-sejour-modal').modal('toggle');
+                toastSuccess(response.message);
+                loadPage();
+              } else {
+                toastError(response.message);
+              }
+            },
+            error(xhr) {
+              toastError("Une erreur est survenue lors de la creation : " + xhr.responseText);
+            },
+            complete: function() {
+                unloadOverlay();
+            }
+        });
+    });
+
+    $("#btn-delete-example").click(function (event) {
+        var sejour = $("#sejour-cle").val();
+
+        loadOverlay();
+        $.ajax({
+            url: "delete_example.php",
+            type: "POST",
+            data: {
+                sejour: sejour
+            },
+            success: function(ajaxResponse) {
+              var response = JSON.parse(ajaxResponse);
+              if (response.code == 0) {
+                $('#configure-sejour-modal').modal('toggle');
+                toastSuccess(response.message);
+                loadPage();
+              } else {
+                toastError(response.message);
+              }
+            },
+            error(xhr) {
+              toastError("Une erreur est survenue lors de la suppression : " + xhr.responseText);
+            },
+            complete: function() {
+                unloadOverlay();
+            }
+        });
+    });
+
+  <!-- ############################### ANIMATEURS ################################# -->
+
+    $("#btn-create-animateur").click(function (event) {
+        var sejour = $("#sejour-cle").val();
+        var nom = $("#animateur-nom").val();
+
+        if (nom.trim().length > 0) {
+            loadOverlay();
+            $.ajax({
+                url: "create_animateur.php",
+                type: "POST",
+                data: {
+                    sejour: sejour,
+                    nom: nom
+                },
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    $('#create-animateur-modal').modal('toggle');
+                    toastSuccess(response.message);
+                    loadPage();
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la creation : " + xhr.responseText);
+                },
+                complete: function() {
+                    unloadOverlay();
+                }
+            });
+        } else {
+          toastWarning("Le nom de l'animateur ne peut pas être vide.");
+        }
+    });
+
+    $("body").on('click', '.btn-open-modal-modify-animateur', function (event) {
+        $("#modify-animateur-cle").val($(this).attr('data-animateur-cle'));
+        $("#modify-animateur-nom").val($(this).attr('data-animateur-nom'));
+        $('#modify-animateur-modal').modal('toggle');
+    });
+
+    $("#btn-modify-animateur").click(function (event) {
+        var sejour = $("#sejour-cle").val();
+        var animateur = $("#modify-animateur-cle").val();
+        var nom = $("#modify-animateur-nom").val();
+
+        if (nom.trim().length > 0) {
+            loadOverlay();
+            $.ajax({
+                url: "modify_animateur.php",
+                type: "POST",
+                data: {
+                    sejour: sejour,
+                    animateur: animateur,
+                    nom: nom
+                },
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    $('#modify-animateur-modal').modal('toggle');
+                    toastSuccess(response.message);
+                    loadPage();
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la modification : " + xhr.responseText);
+                },
+                complete: function() {
+                    unloadOverlay();
+                }
+            });
+        } else {
+          toastWarning("Le nom de l'animateur ne peut pas être vide.");
+        }
+    });
+
+    $("body").on('click', '.btn-open-modal-delete-animateur', function (event) {
+        $("#delete-animateur-cle").val($(this).attr('data-animateur-cle'));
+        $("#delete-animateur-nom").html($(this).attr('data-animateur-nom'));
+        $('#delete-animateur-modal').modal('toggle');
+    });
+
+    $("#btn-delete-animateur").click(function (event) {
+        var sejour = $("#sejour-cle").val();
+        var animateur = $("#delete-animateur-cle").val();
+
+        loadOverlay();
+        $.ajax({
+            url: "delete_animateur.php",
+            type: "POST",
+            data: {
+                sejour: sejour,
+                animateur: animateur
+            },
+            success: function(ajaxResponse) {
+              var response = JSON.parse(ajaxResponse);
+              if (response.code == 0) {
+                $('#delete-animateur-modal').modal('toggle');
+                toastSuccess(response.message);
+                loadPage();
+              } else {
+                toastError(response.message);
+              }
+            },
+            error(xhr) {
+              toastError("Une erreur est survenue lors de la suppression : " + xhr.responseText);
+            },
+            complete: function() {
+                unloadOverlay();
+            }
+        });
+    });
+
+  <!-- ################################# EQUIPES ################################### -->
+
+    function loadEquipeCouleurs() {
+        var optionsCouleurs = "";
+        $.each(colorLabels, function(key, label) {
+            optionsCouleurs += "<option value='" + key + "'>" + label + "</option>";
+        });
+        $("#equipe-couleur").html(optionsCouleurs);
+        $("#modify-equipe-couleur").html(optionsCouleurs);
+    }
+
+    $("#btn-create-equipe").click(function (event) {
+        var sejour = $("#sejour-cle").val();
+        var nom = $("#equipe-nom").val();
+        var couleur = $("#equipe-couleur").val();
+
+        if (nom.trim().length > 0) {
+            loadOverlay();
+            $.ajax({
+                url: "create_equipe.php",
+                type: "POST",
+                data: {
+                    sejour: sejour,
+                    nom: nom,
+                    couleur: couleur
+                },
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    toastSuccess(response.message);
+                    loadPage();
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la creation : " + xhr.responseText);
+                },
+                complete: function() {
+                    unloadOverlay();
+                }
+            });
+        } else {
+          toastWarning("Le nom du groupe ne peut pas être vide.");
+        }
+    });
+
+    $("body").on('click', '.btn-open-modal-modify-equipe', function (event) {
+        $("#modify-equipe-cle").val($(this).attr('data-equipe-cle'));
+        $("#modify-equipe-nom").val($(this).attr('data-equipe-nom'));
+        $("#modify-equipe-couleur").val($(this).attr('data-equipe-couleur'));
+        $('#configure-equipe-modal').modal('toggle');
+        $('#modify-equipe-modal').modal('toggle');
+    });
+
+    $("#btn-modify-equipe").click(function (event) {
+        var sejour = $("#sejour-cle").val();
+        var equipe = $("#modify-equipe-cle").val();
+        var nom = $("#modify-equipe-nom").val();
+        var couleur = $("#modify-equipe-couleur").val();
+
+        if (nom.trim().length > 0) {
+            loadOverlay();
+            $.ajax({
+                url: "modify_equipe.php",
+                type: "POST",
+                data: {
+                    sejour: sejour,
+                    equipe: equipe,
+                    nom: nom,
+                    couleur: couleur
+                },
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    $('#modify-equipe-modal').modal('toggle');
+                    $('#configure-equipe-modal').modal('toggle');
+                    toastSuccess(response.message);
+                    loadPage();
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la modification : " + xhr.responseText);
+                },
+                complete: function() {
+                    unloadOverlay();
+                }
+            });
+        } else {
+          toastWarning("Le nom de l'equipe ne peut pas être vide.");
+        }
+    });
+
+    $("body").on('click', '.btn-open-modal-delete-equipe', function (event) {
+        $("#delete-equipe-cle").val($(this).attr('data-equipe-cle'));
+        $("#delete-equipe-nom").html($(this).attr('data-equipe-nom'));
+        $('#delete-equipe-modal').modal('toggle');
+    });
+
+    $("#btn-delete-equipe").click(function (event) {
+        var sejour = $("#sejour-cle").val();
+        var equipe = $("#delete-equipe-cle").val();
+
+        loadOverlay();
+        $.ajax({
+            url: "delete_equipe.php",
+            type: "POST",
+            data: {
+                sejour: sejour,
+                equipe: equipe
+            },
+            success: function(ajaxResponse) {
+              var response = JSON.parse(ajaxResponse);
+              if (response.code == 0) {
+                $('#delete-equipe-modal').modal('toggle');
+                toastSuccess(response.message);
+                loadPage();
+              } else {
+                toastError(response.message);
+              }
+            },
+            error(xhr) {
+              toastError("Une erreur est survenue lors de la suppression : " + xhr.responseText);
+            },
+            complete: function() {
+                unloadOverlay();
+            }
+        });
+    });
+
+  <!-- ################################# JEUNES ################################### -->
+
+    $("#btn-open-modal-create-jeune").click(function (event) {
+        $("#jeune-prenom").val("");
+        $("#jeune-nom").val("");
+        $("#jeune-age").val("");
+        $("#jeune-equipe").val("");
+        $("#jeune-photo").val("");
+        $("#jeune-csv").val("");
+        $("#fake-jeune-csv").val("");
+    });
+
+
+    $("#form-create-jeune").submit(function(event){   
+        event.preventDefault();
+
+        var prenom = $("#jeune-prenom").val();
+        var csv = $("#fake-jeune-csv").val();
+
+        if (prenom.trim().length > 0 || csv.trim().length > 0) {
+            loadOverlay();
+            var formData = new FormData($(this)[0]);
+            $.ajax({
+                url: "create_jeune.php",
+                type: "POST",
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    $('#create-jeune-modal').modal('toggle');
+                    toastSuccess(response.message);
+                    loadPage();
+                  } else if (response.code == 100) {
+                    $('#create-jeune-modal').modal('toggle');
+                    toastWarning(response.message);
+                    loadPage();
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la creation : " + xhr.responseText);
+                },
+                complete: function() {
+                    unloadOverlay();
+                }
+            });
+        } else {
+          toastWarning("Le prénom du jeune ne peut pas être vide ou le fichier csv ne peut pas être vide.");
+        }
+    });
+
+    $("#jeune-csv").on('change', function() {
+        $("#fake-jeune-csv").val($(this)[0].files[0].name);
+        $("#create-jeune-button-validate").select();
+    });
+
+    $("body").on('click', '.btn-open-modal-modify-jeune', function (event) {
+        $("#modify-jeune-cle").val($(this).attr('data-jeune-cle'));
+        $("#modify-jeune-nom").val($(this).attr('data-jeune-nom'));
+        $("#modify-jeune-prenom").val($(this).attr('data-jeune-prenom'));
+        $("#modify-jeune-age").val($(this).attr('data-jeune-age'));
+        $("#modify-jeune-equipe").val($(this).attr('data-jeune-equipe'));
+        $("#modify-jeune-photo").val("");
+        var photo = ($(this).attr('data-jeune-photo') != "") ? $(this).attr('data-jeune-photo') : "site/addme.jpg";
+        $("#modify-jeune-img").attr("src", "../photos/" + photo);
+        $('#modify-jeune-modal').modal('toggle');
+    });
+
+    $("#form-modify-jeune").submit(function(event){   
+        event.preventDefault();
+
+        var prenom = $("#modify-jeune-prenom").val();
+
+        if (prenom.trim().length > 0) {
+            var formData = new FormData($(this)[0]);
+            loadOverlay();
+            $.ajax({
+                url: "modify_jeune.php",
+                type: "POST",
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                success: function(ajaxResponse) {
+                  var response = JSON.parse(ajaxResponse);
+                  if (response.code == 0) {
+                    $('#modify-jeune-modal').modal('toggle');
+                    toastSuccess(response.message);
+                    loadPage();
+                  } else {
+                    toastError(response.message);
+                  }
+                },
+                error(xhr) {
+                  toastError("Une erreur est survenue lors de la modification : " + xhr.responseText);
+                },
+                complete: function() {
+                    unloadOverlay();
+                }
+            });
+        } else {
+          toastWarning("Le prénom du jeune ne peut pas être vide.");
+        }
+    });
+
+    $("#modify-jeune-img").click(function(event){
+        $("#modify-jeune-photo").click();
+    });
+
+    $("#modify-jeune-photo").on('change', function(event){
+        if ($(this).val() != "") {
+            $("#modify-jeune-img").attr("src", "../photos/site/wait.jpg");
+        }
+    });
+
+    $("body").on('click', '.btn-open-modal-delete-jeune', function (event) {
+        $("#delete-jeune-cle").val($(this).attr('data-jeune-cle'));
+        $("#delete-jeune-nom").html($(this).attr('data-jeune-nom'));
+        $("#delete-jeune-prenom").html($(this).attr('data-jeune-prenom'));
+        $('#delete-jeune-modal').modal('toggle');
+    });
+
+    $("#btn-delete-jeune").click(function (event) {
+        var sejour = $("#sejour-cle").val();
+        var jeune = $("#delete-jeune-cle").val();
+
+        loadOverlay();
+        $.ajax({
+            url: "delete_jeune.php",
+            type: "POST",
+            data: {
+                sejour: sejour,
+                jeune: jeune
+            },
+            success: function(ajaxResponse) {
+              var response = JSON.parse(ajaxResponse);
+              if (response.code == 0) {
+                $('#delete-jeune-modal').modal('toggle');
+                toastSuccess(response.message);
+                loadPage();
+              } else {
+                toastError(response.message);
+              }
+            },
+            error(xhr) {
+              toastError("Une erreur est survenue lors de la suppression : " + xhr.responseText);
+            },
+            complete: function() {
+                unloadOverlay();
+            }
+        });
+    });
+
+
+  <!-- ################################# DEFIS ################################### -->
+
+    $("body").on('click', '.btn-open-modal-view-defis-jeune', function (event) {
+        var sejour = $("#sejour-cle").val();
+        var jeune = $(this).attr('data-jeune-cle');
+        $("#view-defis-jeune-cle").val(jeune);
+        $("#view-defis-jeune-nom").html($(this).attr('data-jeune-nom'));
+        $("#view-defis-jeune-prenom").html($(this).attr('data-jeune-prenom'));        
+        loadJeuneDefi(true);
+    });
+
+    function loadJeuneDefi(toogleModal) {
+        var sejour = $("#sejour-cle").val();
+        var jeune = $("#view-defis-jeune-cle").val();
+        loadOverlay();
+        $.ajax({
+            url: "get_jeune.php",
+            type: "POST",
+            data: {
+                sejour: sejour,
+                jeune: jeune
+            },
+            success: function(ajaxResponse) {
+              var response = JSON.parse(ajaxResponse);
+              if (response.code == 0) {
+                $("#view-defis-jeune-score").html(response.content.jeune.SCORE);
+                var defiList = "";
+                $.each(response.content.defis, function(key, defi) {
+                  var attributes = "data-view-defis-jeune-defi='" + defi.JEUNE_DEFI_ID + "'";
+                  var displayPosition = (defi.POSITION > 1) ? defi.POSITION + "<sup>e</sup>" : "1<sup>er</sup>";
+                  defiList += "<tr>";
+                  defiList += "  <td>" + defi.DESCRIPTION + "</td>";
+                  defiList += "  <td>" + displayPosition + "</td>";
+                  defiList += "  <td>" + defi.SCORE + "</td>";
+                  defiList += "  <td>" + defi.DATE_VALIDATION + "</td>";
+                  defiList += "  <td><button type='button' " + attributes + " class='btn btn-primary btn-open-modal-confirm-delete-jeune-defi'><i class='bi bi-trash-fill'></i></button></td>";
+                  defiList += "</tr>";
+                });
+                defiList = (defiList.length > 0) ? defiList : "<tr><td colspan='5'>Pas de défi validé pour le moment</td></tr>";
+                $("#view-defis-list").html(defiList);
+                if (toogleModal) {
+                    $('#view-defis-jeune-modal').modal('toggle');
+                }
+              } else {
+                toastError(response.message);
+              }
+            },
+            error(xhr) {
+              toastError("Une erreur est survenue lors de la suppression : " + xhr.responseText);
+            },
+            complete: function() {
+                unloadOverlay();
+            }
+        });
+    }
+
+    $("body").on('click', '.btn-open-modal-confirm-delete-jeune-defi', function (event) {
+        $("#delete-jeune-defi-defi").val($(this).attr('data-view-defis-jeune-defi'));
+        toastHide();
+        $('#confirm-delete-jeune-defi-modal').modal('toggle');
+    });
+
+    $("#btn-delete-jeune-defi").click(function (event) {
+        var sejour = $("#sejour-cle").val();
+        var jeune = $("#view-defis-jeune-cle").val();
+        var jeuneDefi = $("#delete-jeune-defi-defi").val();
+
+        loadOverlay();
+        $.ajax({
+            url: "delete_jeune_defi.php",
+            type: "POST",
+            data: {
+                sejour: sejour,
+                jeune: jeune,
+                jeune_defi: jeuneDefi
+            },
+            success: function(ajaxResponse) {
+              var response = JSON.parse(ajaxResponse);
+              if (response.code == 0) {
+                $('#confirm-delete-jeune-defi-modal').modal('toggle');
+                toastSuccess(response.message);
+                loadJeuneDefi(false);
+              } else {
+                toastError(response.message);
+              }
+            },
+            error(xhr) {
+              toastError("Une erreur est survenue lors de la suppression : " + xhr.responseText);
+            },
+            complete: function() {
+                unloadOverlay();
+            }
+        });
+    });
+
+
+
+    $(document).ready(function () {
+      loadPage();
+      activateTooltips();
+    });
+  </script>
+</body>
+</html>
